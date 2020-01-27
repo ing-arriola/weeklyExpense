@@ -37,8 +37,19 @@ class Interfaz{
 
         setTimeout(function(){
             document.querySelector('.primario .alert').remove()
+            form.reset()
         },3000)
 
+    }
+    addPurchaseToList(name,amount){
+        const listOfPurchases=document.querySelector('#gastos ul')
+        const li=document.createElement('li')
+        li.className='list-group-item d-flex justify-content-between align-items-center'
+        li.innerHTML=`
+            ${name}
+            <span class='badge badge-primary badge-pill' >${amount}</span>
+        `
+        listOfPurchases.appendChild(li)
     }
 }
 
@@ -70,6 +81,7 @@ function addPurchase(e){
     if (nameOfPurchase === '' || amountOfPurchase === '') {
         ui.printMessage('There was an error','error')
     } else {
-        console.log('purchase Added')
+        ui.printMessage('success','Success')
+        ui.addPurchaseToList(nameOfPurchase,amountOfPurchase)
     }
 }
