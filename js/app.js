@@ -1,5 +1,6 @@
 const userExpense=prompt('Insert your weekly expense: ')//Getting the expense from the user
 const form=document.getElementById('agregar-gasto')
+let amountOfExpense //Global variable
 
 class Expense{
     constructor(expense){
@@ -10,7 +11,8 @@ class Expense{
         return this.rest-=amount//
     }
 }
-
+//This class display or removes new elements on the UI if it's necessary 
+//Also show messages and all that is related with the UI
 class Interfaz{
     insertExpense(amount){
         console.log(amount)
@@ -51,6 +53,13 @@ class Interfaz{
         `
         listOfPurchases.appendChild(li)
     }
+    //Here the rest of the expense is sended to the UI after a purchase is substracted from the total
+    restOfExpense(amount){
+        const residue = document.querySelector('span#restante')
+        const restOfUserExpense=amountOfExpense.restOfExpense(amount)
+        residue.innerHTML=`${restOfUserExpense}`
+    }
+
 }
 
 //Event Listerners
@@ -60,16 +69,19 @@ form.addEventListener('submit',addPurchase)
 
 
 //Definition of functions
+//This function ask for the data (as it's name saids) of the expense to the user and it's activated
+//when the page is loaded on the browser
 function askData(){
     if (userExpense === null || userExpense === '') {
         window.location.reload()
     } else {
-        expense= new Expense(userExpense)
+        amountOfExpense= new Expense(userExpense)
         //Getting a interfaz instance to send the data to the DOM
         interfaz=new Interfaz()
-        interfaz.insertExpense(expense.expense)
+        interfaz.insertExpense(amountOfExpense.expense)
     }
 }
+
 
 function addPurchase(e){
     e.preventDefault()
@@ -83,5 +95,7 @@ function addPurchase(e){
     } else {
         ui.printMessage('success','Success')
         ui.addPurchaseToList(nameOfPurchase,amountOfPurchase)
+        //After the purchase is added to the list it's necessary to substract it from the expense
+        ui.restOfExpense(amountOfPurchase)
     }
 }
