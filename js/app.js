@@ -58,6 +58,23 @@ class Interfaz{
         const residue = document.querySelector('span#restante')
         const restOfUserExpense=amountOfExpense.restOfExpense(amount)
         residue.innerHTML=`${restOfUserExpense}`
+        this.checkExpense()
+    }
+    checkExpense(){
+        //Get vars and UI element 
+        const total=amountOfExpense.expense
+        const residue=amountOfExpense.rest
+        const residueOnUi=document.querySelector('.restante')
+        //Here the logic is quite simple, because i'm only checking if the residue is
+        //between less than 50% but greater than 25%... that is a warning situation
+        //grea than zero but less than 25% is a danger situation XD
+        if(residue<total/2 && residue > total/4){    
+            residueOnUi.classList.remove('alert-sucess')
+            residueOnUi.classList.add('alert-warning')
+        }else if(residue<total/4){
+            residueOnUi.classList.remove('alert-sucess','alert-warning')
+            residueOnUi.classList.add('alert-danger')
+        }
     }
 
 }
